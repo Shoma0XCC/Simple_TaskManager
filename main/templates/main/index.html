@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- favicon -->
+    <link rel="shortcut icon" href="../../../static/vendor/public/favicon.ico" type="image/x-icon" />
+    <!-- font awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+    />
+    <!-- normalize css -->
+    <link rel="stylesheet" href="../../../static/vendor/public/normalize.css" />
+    <!-- main css -->
+    <link rel="stylesheet" href="../../../static/vendor/public/main.css" />
+    <title>Task Manager</title>
+  </head>
+  <body>
+    <form class="task-form" method="post">
+      {% csrf_token %}
+      <h4>Task Manager</h4>
+      <div class="form-control">
+        name
+        {{ form.text }}
+        {{ form.status.label_tag }}
+        {{ form.status }}
+        <button class="btn submit-btn" type="submit">Add Task</button>
+      </div>
+      <div class="form-alert">
+        {{ error }}
+      </div>
+    </form>
+    
+    <section class="tasks-container">
+      <form method="get" action="">
+        {{ filter.form.status.label_tag }}
+        {{ filter.form.status }}
+        <button type="submit" class="btn btn-primary">Filter</button>
+      </form>
+    
+      <div class="tasks" id="task-list">
+        {% for el in tasks %}
+        <div class="single-task">
+          <p>{{ el.text }}</p>
+          <p>{{ el.get_status_display }}</p>
+          <a href="{% url 'update_task' el.pk %}" class="btn">Change</a>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+    <!-- axios -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+      integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    >
+    </script>
+    <script src="{% static 'vendor/public/browser-app.js' %}">
+
+    </script>
+  </body>
+</html>
